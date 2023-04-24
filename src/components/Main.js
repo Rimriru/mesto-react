@@ -54,8 +54,8 @@ export default function Main(props) {
         ></button>
       </section>
       <section className="elements" aria-label="Карточки">
-        {cards.map((card) => {
-          return <Card card={card} onCardClick={props.onCardClick} />;
+        {cards.map(card => {
+          return <Card card={card} key={card._id} onCardClick={props.onCardClick} />;
         })}
       </section>
     </main>
