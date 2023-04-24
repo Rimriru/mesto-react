@@ -14,11 +14,13 @@ export default function Main(props) {
       setUserName(res.name);
       setUserDescription(res.about);
       setUserAvatar(res.avatar);
-    });
+    })
+    .catch(err => console.log(`Ошибка: ${err}`));
 
     api.getInitialCards().then((res) => {
       setCards(res);
-    });
+    })
+    .catch(err => console.log(`Ошибка: ${err}`));
   }), []);
 
   return (

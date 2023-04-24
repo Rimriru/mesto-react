@@ -13,7 +13,7 @@ export default function PopupWithForm(props) {
             noValidate
           >
             {props.children}
-            <button className="popup__submit-button" type="submit">{props.textSubmitButton}</button>
+            <button className="popup__submit-button" type="submit">{props.textSubmitButton || 'Сохранить'}</button>
           </form>
           <button className="popup__close-button" onClick={props.onClose}></button>
         </div>
