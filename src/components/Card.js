@@ -1,14 +1,14 @@
 import React from "react";
 
 export default function Card(props) {
-  const {name, link, _id, likes} = props.card;
+  const {name, link, likes} = props.card;
 
   function handleClick() {
     props.onCardClick(props.card);
   }
 
   return (
-    <article className="element" key={_id}>
+    <article className="element">
       <img className="element__image" src={link} alt={name} onClick={handleClick}/>
       <div className="element__container">
         <h2 className="element__name">{name}</h2>
