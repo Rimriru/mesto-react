@@ -5,16 +5,7 @@ import Card from "./Card.js";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
 export default function Main(props) {
-  const { name, avatar, about } = React.useContext(CurrentUserContext);
-
-  React.useEffect(() => {
-    api
-      .getInitialCards()
-      .then((res) => {
-        props.setCards(res);
-      })
-      .catch((err) => console.log(`Ошибка: ${err}`));
-  }, []);
+  const currentUser = React.useContext(CurrentUserContext);
 
   return (
     <main className="content">
@@ -23,7 +14,7 @@ export default function Main(props) {
           <button className="profile__avatar" onClick={props.onEditAvatar}>
             <img
               className="profile__avatar-image"
-              src={avatar ? avatar : avatarPath}
+              src={currentUser.avatar ? currentUser.avatar : avatarPath}
               alt="Аватар пользователя"
             />
             <div className="profile__avatar-overlay">
@@ -32,14 +23,14 @@ export default function Main(props) {
           </button>
           <div className="profile__info">
             <div className="profile__container">
-              <h1 className="profile__name">{name}</h1>
+              <h1 className="profile__name">{currentUser.name}</h1>
               <button
                 className="profile__edit-button"
                 type="button"
                 onClick={props.onEditProfile}
               ></button>
             </div>
-            <p className="profile__description">{about}</p>
+            <p className="profile__description">{currentUser.about}</p>
           </div>
         </div>
         <button

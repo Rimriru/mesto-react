@@ -41,7 +41,7 @@
 @import url(./blocks/popup/__submit-button/_disabled/popup__submit-button_disabled.css);
 @import url(./blocks/popup/__submit-button/_type_confirm/popup__submit-button_type_confirm.css);
 @import url(./blocks/popup/__close-button/popup__close-button.css);
-@import url(./blocks/popup/_type/popup_type_image.css);
+@import url(./blocks/popup/_type/popup_type_card-image.css);
 @import url(./blocks/popup/__image-container/popup__image-container.css);
 @import url(./blocks/popup/__image/popup__image.css);
 @import url(./blocks/popup/__image-caption/popup__image-caption.css);
