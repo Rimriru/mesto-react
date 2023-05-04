@@ -1,7 +1,6 @@
 import React from 'react';
 
 export default function PopupWithForm(props) {
-
   return (
     <div className={`popup popup_type_${props.name} ${props.isOpen ? "popup_opened" : ``}`}>
         <div className="popup__container">
@@ -11,6 +10,7 @@ export default function PopupWithForm(props) {
             method="get"
             name="popup-form"
             noValidate
+            onSubmit={props.onSubmit}
           >
             {props.children}
             <button className="popup__submit-button" type="submit">{props.textSubmitButton || 'Сохранить'}</button>
