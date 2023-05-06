@@ -1,6 +1,5 @@
 import React from "react";
 import avatarPath from "../images/default-avatar.png";
-import { api } from "../utils/api.js";
 import Card from "./Card.js";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
