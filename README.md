@@ -14,4 +14,4 @@
 
 ## Ccылка на проект
 
-https://rimriru.github.io/mesto
+https://rimriru.github.io/mesto-react/
