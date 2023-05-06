@@ -2,15 +2,23 @@ import React from 'react';
 import PopupWithForm from './PopupWithForm';
 
 export default function AddPlacePopup(props) {
-  const nameRef = React.useRef(null);
-  const linkRef = React.useRef(null);
+  const [name, setName] = React.useState("");
+  const [link, setLink] = React.useState("");
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
     props.onAddPlace({
-      name: nameRef.current.value,
-      link: linkRef.current.value
-    });
+      name,
+      link
+    }, evt);
+  }
+
+  const handleInputNameChange = (evt) => {
+    setName(evt.target.value);
+  }
+
+  const handleInputLinkChange = (evt) => {
+    setLink(evt.target.value);
   }
 
   return (
@@ -31,7 +39,7 @@ export default function AddPlacePopup(props) {
           required
           minLength="2"
           maxLength="30"
-          ref={nameRef}
+          onChange={handleInputNameChange}
         />
         <span className="popup__error card-name-error">#</span>
         <input
@@ -41,7 +49,7 @@ export default function AddPlacePopup(props) {
           name="link"
           placeholder="Ссылка на картинку"
           required
-          ref={linkRef}
+          onChange={handleInputLinkChange}
         />
         <span className="popup__error card-link-error">#</span>
       </PopupWithForm>

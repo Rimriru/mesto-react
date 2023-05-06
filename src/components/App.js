@@ -19,7 +19,7 @@ function App() {
   const [isConfirmPopupOpen, setIsConfirmPopupOpen] = React.useState(false);
   const [cards, setCards] = React.useState([]);
   const [selectedCard, setSelectedCard] = React.useState(null);
-  const [cardId, setCardId] = React.useState('');
+  const [cardId, setCardId] = React.useState("");
 
   const [currentUser, setCurrentUser] = React.useState({});
 
@@ -35,9 +35,7 @@ function App() {
   React.useEffect(() => {
     api
       .getInitialCards()
-      .then((res) => {
-        setCards(res);
-      })
+      .then(res => setCards(res))
       .catch((err) => console.log(`Ошибка: ${err}`));
   }, []);
 
@@ -67,10 +65,14 @@ function App() {
 
   const handleCardLike = (card) => {
     const isLiked = card.likes.some((like) => like._id === currentUser._id);
-    api.changeLikeCardStatus(card._id, isLiked).then((newCard) => {
-      setCards((state) => state.map(c => (c._id === card._id ? newCard : c)));
-    })
-    .catch(err => console.log(err));
+    api
+      .changeLikeCardStatus(card._id, isLiked)
+      .then((newCard) => {
+        setCards((state) =>
+          state.map((c) => (c._id === card._id ? newCard : c))
+        );
+      })
+      .catch((err) => console.log(err));
   };
 
   const handleCardRemove = (cardId) => {
@@ -79,40 +81,46 @@ function App() {
   };
 
   const handleConfirmPopupSubmit = (cardId) => {
-    api.removeCard(cardId).then(() => {
-      let updatedCards = cards.filter(card => card._id !== cardId);
-      setCards(updatedCards);
-      closeAllPopups();
-    })
-    .catch(err => console.log(err));
-  }
+    api
+      .removeCard(cardId)
+      .then(() => {
+        const updatedCards = cards.filter((card) => card._id !== cardId);
+        setCards(updatedCards);
+        closeAllPopups();
+      })
+      .catch((err) => console.log(err));
+  };
 
-  const handleUpdateUser = ({name, about}) => {
-    api.editUserInfo({name, about})
-    .then((res) => {
-      setCurrentUser(res);
-      closeAllPopups();
-    })
-    .catch(err => console.log(err));
-  }
+  const handleUpdateUser = ({ name, about }) => {
+    api
+      .editUserInfo({ name, about })
+      .then((res) => {
+        setCurrentUser(res);
+        closeAllPopups();
+      })
+      .catch((err) => console.log(err));
+  };
 
-  const handleUpdateAvatar = ({avatar}) => {
-    api.changeUserAvatar({avatar})
-    .then((res) => {
-      setCurrentUser(res);
-      closeAllPopups();
-    })
-    .catch(err => console.log(err));
-  }
+  const handleUpdateAvatar = ({ avatar }) => {
+    api
+      .changeUserAvatar({ avatar })
+      .then((res) => {
+        setCurrentUser(res);
+        closeAllPopups();
+      })
+      .catch((err) => console.log(err));
+  };
 
-  const handleAddPlaceSubmit = ({name, link}) => {
-    api.addNewCard({name, link})
-    .then(newCard => {
-      setCards([newCard, ...cards]);
-      closeAllPopups();
-    })
-    .catch(err => console.log(err));
-  }
+  const handleAddPlaceSubmit = ({ name, link }, evt) => {
+    api
+      .addNewCard({ name, link })
+      .then((newCard) => {
+        setCards([newCard, ...cards]);
+        closeAllPopups();
+        evt.target.reset();
+      })
+      .catch((err) => console.log(err));
+  };
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
@@ -128,14 +136,28 @@ function App() {
         setCards={setCards}
       />
       <Footer />
-      <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} onUpdateUser={handleUpdateUser}/>
-      <AddPlacePopup isOpen={isAddPlacePopupOpen} onClose={closeAllPopups} onAddPlace={handleAddPlaceSubmit}/>
-      <EditAvatarPopup isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} onUpdateAvatar={handleUpdateAvatar}/>
-      <ConfirmPopup isOpen={isConfirmPopupOpen} onClose={closeAllPopups} onConfirm={handleConfirmPopupSubmit} cardId={cardId}/>
-      <ImagePopup
+      <EditProfilePopup
+        isOpen={isEditProfilePopupOpen}
         onClose={closeAllPopups}
-        card={selectedCard}
+        onUpdateUser={handleUpdateUser}
       />
+      <AddPlacePopup
+        isOpen={isAddPlacePopupOpen}
+        onClose={closeAllPopups}
+        onAddPlace={handleAddPlaceSubmit}
+      />
+      <EditAvatarPopup
+        isOpen={isEditAvatarPopupOpen}
+        onClose={closeAllPopups}
+        onUpdateAvatar={handleUpdateAvatar}
+      />
+      <ConfirmPopup
+        isOpen={isConfirmPopupOpen}
+        onClose={closeAllPopups}
+        onConfirm={handleConfirmPopupSubmit}
+        cardId={cardId}
+      />
+      <ImagePopup onClose={closeAllPopups} card={selectedCard} />
     </CurrentUserContext.Provider>
   );
 }

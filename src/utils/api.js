@@ -4,147 +4,86 @@ class Api {
     this._headers = headers;
   }
 
-  async getUserInfo() {
-    try {
-      const res = await fetch(`${this._baseUrl}/v1/cohort-63/users/me`, {
-        headers: this._headers,
-      });
-      if (res.ok) {
-        const data = await res.json();
-        return data;
-      }
-      return Promise.reject(`Ошибка: ${res.status}`);
-    } catch (err) {
-      console.log(`Ой! Не удалось получить данные профиля! ${err}`);
+  _checkResponse(res) {
+    if (res.ok) {
+      return res.json().then((data) => data);
     }
+    return Promise.reject(`Ошибка: ${res.status}`);
+  }
+
+  async getUserInfo() {
+    const res = await fetch(`${this._baseUrl}/v1/cohort-63/users/me`, {
+      headers: this._headers,
+    });
+    return this._checkResponse(res);
   }
 
   async getInitialCards() {
-    try {
-      const res = await fetch(`${this._baseUrl}/v1/cohort-63/cards`, {
-        headers: this._headers,
-      });
-      if (res.ok) {
-        const data = await res.json();
-        return data;
-      }
-      return Promise.reject(`Ошибка: ${res.status}`);
-    } catch (err) {
-      console.log(`Ой! Карточки не получены! ${err}`);
-    }
+    const res = await fetch(`${this._baseUrl}/v1/cohort-63/cards`, {
+      headers: this._headers,
+    });
+    return this._checkResponse(res);
   }
 
   async editUserInfo({ name, about }) {
-    try {
-      const res = await fetch(`${this._baseUrl}/v1/cohort-63/users/me`, {
-        method: "PATCH",
-        headers: this._headers,
-        body: JSON.stringify({ name, about }),
-      });
-      if (res.ok) {
-        const data = await res.json();
-        return data;
-      }
-      return Promise.reject(`Ошибка: ${res.status}`);
-    } catch (err) {
-      console.log(`Ой! Не удалось изменить данные профиля! ${err}`);
-    }
+    const res = await fetch(`${this._baseUrl}/v1/cohort-63/users/me`, {
+      method: "PATCH",
+      headers: this._headers,
+      body: JSON.stringify({ name, about }),
+    });
+    return this._checkResponse(res);
   }
 
   async changeUserAvatar(avatar) {
-    try {
-      const res = await fetch(`${this._baseUrl}/v1/cohort-63/users/me/avatar`, {
-        method: "PATCH",
-        headers: this._headers,
-        body: JSON.stringify(avatar),
-      });
-      if (res.ok) {
-        const data = await res.json();
-        return data;
-      }
-      return Promise.reject(`Ошибка: ${res.status}`);
-    } catch (err) {
-      console.log(`Ой! Не удалось изменить аватар профиля! ${err}`);
-    }
+    const res = await fetch(`${this._baseUrl}/v1/cohort-63/users/me/avatar`, {
+      method: "PATCH",
+      headers: this._headers,
+      body: JSON.stringify(avatar),
+    });
+    return this._checkResponse(res);
   }
 
   async addNewCard({ name, link }) {
-    try {
-      const res = await fetch(`${this._baseUrl}/v1/cohort-63/cards`, {
-        method: "POST",
-        headers: this._headers,
-        body: JSON.stringify({ name, link }),
-      });
-      if (res.ok) {
-        const data = await res.json();
-        return data;
-      }
-      return Promise.reject(`Ошибка: ${res.status}`);
-    } catch (err) {
-      console.log(`Ой! Не удалось добавить новую карточку! ${err}`);
-    }
+    const res = await fetch(`${this._baseUrl}/v1/cohort-63/cards`, {
+      method: "POST",
+      headers: this._headers,
+      body: JSON.stringify({ name, link }),
+    });
+    return this._checkResponse(res);
   }
 
   async removeCard(cardId) {
-    try {
-      const res = await fetch(`${this._baseUrl}/v1/cohort-63/cards/${cardId}`, {
-        method: "DELETE",
-        headers: this._headers,
-      });
-      if (res.ok) {
-        const data = await res.json();
-        return data;
-      }
-      return Promise.reject(`Ошибка: ${res.status}`);
-    } catch (err) {
-      console.log(`Ой! Не удалось удалить карточку! ${err}`);
-    }
+    const res = await fetch(`${this._baseUrl}/v1/cohort-63/cards/${cardId}`, {
+      method: "DELETE",
+      headers: this._headers,
+    });
+    return this._checkResponse(res);
   }
 
   async addLikeCard(cardId) {
-    try {
-      const res = await fetch(
-        `${this._baseUrl}/v1/cohort-63/cards/${cardId}/likes`,
-        {
-          method: "PUT",
-          headers: this._headers,
-        }
-      );
-      if (res.ok) {
-        const data = await res.json();
-        return data;
+    const res = await fetch(
+      `${this._baseUrl}/v1/cohort-63/cards/${cardId}/likes`,
+      {
+        method: "PUT",
+        headers: this._headers,
       }
-      return Promise.reject(`Ошибка: ${res.status}`);
-    } catch (err) {
-      console.log(`Ой! Не удалось добавить лайк на карточку! ${err}`);
-    }
+    );
+    return this._checkResponse(res);
   }
 
   async removeLikeCard(cardId) {
-    try {
-      const res = await fetch(
-        `${this._baseUrl}/v1/cohort-63/cards/${cardId}/likes`,
-        {
-          method: "DELETE",
-          headers: this._headers,
-        }
-      );
-      if (res.ok) {
-        const data = await res.json();
-        return data;
+    const res = await fetch(
+      `${this._baseUrl}/v1/cohort-63/cards/${cardId}/likes`,
+      {
+        method: "DELETE",
+        headers: this._headers,
       }
-      return Promise.reject(`Ошибка: ${res.status}`);
-    } catch (err) {
-      console.log(`Ой! Не удалось убрать лайк с карточки! Ошибка: ${err}`);
-    }
+    );
+    return this._checkResponse(res);
   }
 
   async changeLikeCardStatus(cardId, isLiked) {
-    try {
-      return isLiked ? this.removeLikeCard(cardId) : this.addLikeCard(cardId);
-    } catch (err) {
-      console.log(`Ой! Проблема с лайками карточки! ${err}`);
-    }
+    return isLiked ? this.removeLikeCard(cardId) : this.addLikeCard(cardId);
   }
 }
 
