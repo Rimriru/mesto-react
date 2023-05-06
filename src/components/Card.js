@@ -2,7 +2,7 @@ import React from "react";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
 export default function Card(props) {
-  const {name, owner, link, likes} = props.card;
+  const {name, _id, owner, link, likes} = props.card;
   const currentUser = React.useContext(CurrentUserContext);
 
   const isOwn = owner._id === currentUser._id;
@@ -10,7 +10,7 @@ export default function Card(props) {
 
   const handleCardClick = () => props.onCardClick(props.card);
   const handleLikeCardClick = () => props.onLikeClick(props.card);
-  const handleRemoveButtonClick = () => props.onRemoveClick(props.card._id);
+  const handleRemoveButtonClick = () => props.onRemoveClick(_id);
 
   return (
     <article className="element">
